@@ -1,0 +1,24 @@
+import java.util.Iterator;
+import java.util.Set;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class SwitchingWindows {
+
+	public static void main(String[] args) {
+
+		System.setProperty("webdriver.chrome.driver",
+				"C:\\Users\\odunlamib\\Desktop\\Selenium Data\\chromedriver\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://rahulshettyacademy.com/loginpagePractise");
+		Set<String> windowhandles = driver.getWindowHandles();	
+		Iterator<String> it = windowhandles.iterator();
+		String parentWindow =it.next();
+		String childWindow = it.next();
+		driver.switchTo().window(childWindow);
+		
+		}
+
+}

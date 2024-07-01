@@ -1,0 +1,50 @@
+import java.util.ArrayList;
+import java.util.stream.Stream;
+
+public class Javasteams {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		ArrayList<String> names = new ArrayList<String>();
+		names.add("Orange");
+		names.add("Cucumber");
+		names.add("Banana");
+		names.add("Mango");
+		names.add("Beetroot");
+		int count = 0;
+		for (int i = 0; i < names.size(); i++) {
+			String thename = names.get(i);
+			if (thename.startsWith("B")) {
+				count++;
+			}
+		}
+		System.out.println(count);
+
+		// performing the same logic with stream
+
+		Long count2 =names.stream().filter(s -> s.startsWith("B")).count();
+		//.count in this case is a terminal operation
+		//filter is an intermediate operation
+		//terminal operation will only work if the filter operation returns true
+		System.out.println(count2);
+		
+		//Alternatively, a stream of the strings can be created directly
+		//where s -> s is referred to as lambda expression
+		//lambda expression takes parameter and return something
+		//if a lambda expression only contains one variable, it can be stated directly like
+		/**
+		 * s->s.method() but if it contains more than one function, it can be in a block of curly braces
+		 * expressed as s-> { }
+		 */
+		Long d=Stream.of("mango","orange","onions","species").filter(s->s.startsWith("o")).count();
+		System.out.println(d);
+		//when the lambda function action is in a block of curly braces, a return type has to be specified
+		
+		Long f=Stream.of("mango","opium","orange","onions","species").filter(s->{
+			s.startsWith("m");
+			return true;
+		}).count();
+		System.out.println(f);
+	}
+
+}

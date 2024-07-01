@@ -1,0 +1,54 @@
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+
+public class Comparingsortedlist {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.setProperty("webdriver.chrome.driver",
+				"C:\\Users\\odunlamib\\Desktop\\Selenium Data\\chromedriver\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://rahulshettyacademy.com/seleniumPractise/#/offers");
+		//click on the veg icon to sort list
+		driver.findElement(By.cssSelector("th[aria-label*='Veg/fruit']")).click();
+		//tr/td[1]
+		//capture all webelements into a list
+		List<WebElement> listOfItems= driver.findElements(By.xpath("//tr/td[1]"));
+		
+		//capture text of all webelement into a new list
+		List<String> originalList = listOfItems.stream().map(s->s.getText()).collect(Collectors.toList());
+		
+		//sort the orginal List and compare if the newly sorted list is the same as the original list
+		List<String> sortedList = originalList.stream().sorted().collect(Collectors.toList());
+		
+		//print the price of any of the item
+		
+		//e.g if item is beans, print the price
+		
+		List<String> price =listOfItems.stream().filter(s->s.getText().contains("Beans")).map(a->getPrice(a)).collect(Collectors.toList());
+		System.out.println(price);
+		
+		
+		
+		Assert.assertTrue(originalList.equals(sortedList));
+		
+		
+		
+	}
+
+	private static String getPrice(WebElement a) {
+		// TODO Auto-generated method stub
+		//from the current element [Beans], transverse to the corresponding price
+		String price= a.findElement(By.xpath("//tr/td[1]/following-sibling::td[1]")).getText();
+		
+		return price;
+	}
+
+}

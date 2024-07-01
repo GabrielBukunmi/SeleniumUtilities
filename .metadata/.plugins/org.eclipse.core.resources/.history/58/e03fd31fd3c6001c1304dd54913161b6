@@ -1,0 +1,47 @@
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Brokenlinks {
+
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+		System.setProperty("webdriver.chrome.driver",
+				"C:\\Users\\odunlamib\\Desktop\\Selenium Data\\chromedriver\\chromedriver.exe");
+		
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://rahulshettyacademy.com/AutomationPractice");
+		
+		//GET THE URL
+		//regular expression in css selector
+		String link =driver.findElement(By.cssSelector("a[href*='soapui']")).getAttribute("href");
+		System.out.println(link);
+		
+		//pass it as a url using Java
+		URL url = new URL(link);
+		//ust the open connection method in the URL class to open the connection
+		//URLConnection conn=url.openConnection();
+		HttpURLConnection conn=(HttpURLConnection)url.openConnection();
+		
+		conn.setRequestMethod("HEAD");
+		conn.connect();
+		int respcode =conn.getResponseCode();
+		System.out.println(respcode);
+		
+		//get all the links in the footer page
+		int countoflinks= driver.findElements(By.xpath("//li[class='gf-li']")).size();
+		System.out.println(countoflinks);
+		
+		
+		
+		
+	}
+
+}

@@ -1,0 +1,31 @@
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Brokenlinkstest {
+
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+		System.setProperty("webdriver.chrome.driver", "C:\\Users\\odunlamib\\Desktop\\Selenium Data\\chromedriver\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://www.udacity.com");
+		String link =driver.findElement(By.cssSelector("a[href*='business-analytics']")).getAttribute("href");
+		System.out.println(link);
+		URL url = new URL(link);
+		HttpURLConnection theurl = (HttpURLConnection)url.openConnection();
+		theurl.setRequestMethod("HEAD"); //HEAD request method is similar to GET but does not return any response body
+		theurl.connect();
+		int respcode= theurl.getResponseCode();
+		System.out.println(respcode);
+		
+		
+
+	}
+
+}
